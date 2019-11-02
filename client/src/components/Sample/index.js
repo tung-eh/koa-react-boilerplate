@@ -12,7 +12,7 @@ const Sample = () => {
   useEffect(() => {
     fetchCategories();
     fetchProducts();
-  }, []);
+  }, [fetchCategories, fetchProducts]);
 
   return (
     <>
