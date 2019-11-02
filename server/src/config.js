@@ -5,7 +5,7 @@ dotenv.config();
 
 const env =
   ['test', 'production', 'development', 'staging'].indexOf(
-    process.env.NODE_ENV,
+    process.env.NODE_ENV
   ) === -1
     ? 'development'
     : process.env.NODE_ENV;
@@ -14,4 +14,6 @@ const port = process.env.PORT || 2206;
 
 const dbUri = process.env.DB_URI || 'mongodb://localhost:27017/test';
 
-export {env, port, dbUri};
+const sessionKey = process.env.SESSION_KEY || 'whatever';
+
+export { env, port, dbUri, sessionKey };

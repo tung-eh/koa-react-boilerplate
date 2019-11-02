@@ -1,17 +1,19 @@
-import Koa from 'koa';
-import koaStatic from 'koa-static';
-import bodyParser from 'koa-bodyparser';
-import send from 'koa-send';
-import session from 'koa-session';
-import passport from 'koa-passport';
-
-import {port} from './config';
-import indexRoute from './routes';
-import './database';
 import './auth';
+import './database';
+
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import koaStatic from 'koa-static';
+import passport from 'koa-passport';
+import session from 'koa-session';
+
+import send from 'koa-send';
+
+import { port, sessionKey } from './config';
+import indexRoute from './routes';
 
 const app = new Koa();
-app.keys = [process.env.SESSION_KEY];
+app.keys = [sessionKey];
 
 app.use(session(app));
 
