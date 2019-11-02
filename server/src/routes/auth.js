@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import passport from 'koa-passport';
 import User from '../models/user';
-import {to} from '../utils';
+import { to } from '../utils';
 
 const router = new Router({});
 
@@ -20,7 +20,7 @@ router.post('/login', async (ctx, next) => {
   return passport.authenticate('local', async (err, user) => {
     if (user === false) {
       ctx.status = 401;
-      ctx.body = {success: false};
+      ctx.body = { success: false };
     } else {
       ctx.login(user);
       ctx.body = user;
@@ -39,10 +39,10 @@ router.get('/auth', async (ctx, next) => {
 router.post('/logout', async (ctx, next) => {
   if (ctx.isAuthenticated()) {
     ctx.logout();
-    ctx.body = {success: true};
+    ctx.body = { success: true };
   } else {
     ctx.status = 401;
-    ctx.body = {success: false};
+    ctx.body = { success: false };
   }
 });
 

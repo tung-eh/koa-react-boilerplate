@@ -1,13 +1,13 @@
-import {navigate} from '@reach/router';
-import React, {useContext} from 'react';
+import { navigate } from '@reach/router';
+import React, { useContext } from 'react';
 
-import {AuthContext} from '../AuthProvider';
-import {useFormInput, useFetch} from '../../hooks';
+import { AuthContext } from '../AuthProvider';
+import { useFormInput, useFetch } from '../../hooks';
 
 const Login = () => {
-  const [input, handleInputChange] = useFormInput({email: '', password: ''});
-  const {updateAuthInfo} = useContext(AuthContext);
-  const {triggerFetch} = useFetch({
+  const [input, handleInputChange] = useFormInput({ email: '', password: '' });
+  const { updateAuthInfo } = useContext(AuthContext);
+  const { triggerFetch } = useFetch({
     url: '/api/login',
     method: 'POST',
     dataObj: input,

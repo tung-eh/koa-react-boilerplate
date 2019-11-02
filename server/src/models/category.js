@@ -1,4 +1,4 @@
-import mongoose, {Schema} from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const CategorySchema = new Schema(
   {
@@ -8,11 +8,11 @@ const CategorySchema = new Schema(
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     products: {
       type: Number,
-      required: true
+      required: true,
     },
     children: [
       {
@@ -23,7 +23,7 @@ const CategorySchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export default mongoose.model('Category', CategorySchema);

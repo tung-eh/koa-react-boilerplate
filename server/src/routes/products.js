@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import Product from '../models/product';
-import {to} from '../utils';
+import { to } from '../utils';
 
 const router = new Router({
   prefix: '/products',

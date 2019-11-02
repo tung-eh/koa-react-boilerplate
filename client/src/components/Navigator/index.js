@@ -1,12 +1,12 @@
-import {Link, navigate} from '@reach/router';
-import React, {useContext} from 'react';
+import { Link, navigate } from '@reach/router';
+import React, { useContext } from 'react';
 
-import {AuthContext} from '../AuthProvider';
-import {useFetch} from '../../hooks';
+import { AuthContext } from '../AuthProvider';
+import { useFetch } from '../../hooks';
 
 const AuthNav = () => {
-  const {authInfo, updateAuthInfo} = useContext(AuthContext);
-  const {triggerFetch} = useFetch({
+  const { authInfo, updateAuthInfo } = useContext(AuthContext);
+  const { triggerFetch } = useFetch({
     url: '/api/logout',
     method: 'POST',
     successCb: data => {
@@ -31,7 +31,7 @@ const Navigator = () => (
   <nav>
     <Link to="/">Home</Link> | <Link to="about">About</Link> |{' '}
     <Link to="sample">Sample</Link>
-    <span style={{float: 'right'}}>
+    <span style={{ float: 'right' }}>
       <AuthNav />
     </span>
   </nav>

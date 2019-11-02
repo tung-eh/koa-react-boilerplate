@@ -1,7 +1,7 @@
 import passport from 'koa-passport';
-import {Strategy as LocalStrategy} from 'passport-local';
+import { Strategy as LocalStrategy } from 'passport-local';
 import User from './models/user';
-import {to} from './utils';
+import { to } from './utils';
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -14,15 +14,15 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use(
   new LocalStrategy(
-    {usernameField: 'email', passwordField: 'password'},
+    { usernameField: 'email', passwordField: 'password' },
     async (email, password, done) => {
-      const [err, user] = await to(User.findOne({email}).select('+password'));
+      const [err, user] = await to(User.findOne({ email }).select('+password'));
       if (err || !user) {
         done(err, user);
       } else {
         const isPasswordMatched = user.comparePassword(password);
         done(err, isPasswordMatched ? user : null);
       }
-    },
-  ),
+    }
+  )
 );

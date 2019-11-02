@@ -3,7 +3,7 @@ import productRoutes from './products';
 import categoryRoutes from './categories';
 import authRoutes from './auth';
 
-const router = new Router({prefix: '/api'});
+const router = new Router({ prefix: '/api' });
 
 router.get('/health', ctx => (ctx.body = 'OK'));
 router.use('', authRoutes.routes());

@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AuthContext = React.createContext({
   authInfo: null,
   updateAuthInfo: () => {},
 });
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
   const [authInfo, updateAuthInfo] = useState(null);
   useEffect(() => {
     fetch('/api/auth')
@@ -21,12 +21,12 @@ const AuthProvider = ({children}) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{authInfo, updateAuthInfo}}>
+    <AuthContext.Provider value={{ authInfo, updateAuthInfo }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export {AuthContext};
+export { AuthContext };
 
 export default AuthProvider;

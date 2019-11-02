@@ -1,4 +1,4 @@
-import {Router} from '@reach/router';
+import { Router } from '@reach/router';
 import React from 'react';
 
 import About from './About';

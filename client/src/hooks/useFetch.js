@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 const makeQuery = obj =>
   Object.keys(obj)
@@ -51,9 +51,9 @@ const useFetch = ({
       .finally(() => setLoading(false));
   };
 
-  return {loading, data, error, triggerFetch};
+  return { loading, data, error, triggerFetch };
 };
 
-export {getUrl};
+export { getUrl };
 
 export default useFetch;

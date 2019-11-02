@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 import Category from '../models/category';
-import {to} from '../utils';
+import { to } from '../utils';
 
 const router = new Router({
   prefix: '/categories',
