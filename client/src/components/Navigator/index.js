@@ -1,10 +1,11 @@
-import { Link, navigate } from '@reach/router';
+import { Link, useHistory } from 'react-router-dom';
 import React, { useContext } from 'react';
 
 import { AuthContext } from '../AuthProvider';
 import { useFetch } from '../../hooks';
 
 const AuthNav = () => {
+  const history = useHistory();
   const { authInfo, updateAuthInfo } = useContext(AuthContext);
   const { triggerFetch } = useFetch({
     url: '/api/logout',
@@ -12,7 +13,7 @@ const AuthNav = () => {
     successCb: data => {
       alert('Logged out successfully');
       updateAuthInfo(null);
-      navigate('/login');
+      history.push('/login');
     },
   });
 

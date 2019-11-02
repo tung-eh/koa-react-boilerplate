@@ -1,10 +1,11 @@
-import { navigate } from '@reach/router';
+import { useHistory } from 'react-router';
 import React, { useContext } from 'react';
 
 import { AuthContext } from '../AuthProvider';
 import { useFormInput, useFetch } from '../../hooks';
 
 const Login = () => {
+  const history = useHistory();
   const [input, handleInputChange] = useFormInput({ email: '', password: '' });
   const { updateAuthInfo } = useContext(AuthContext);
   const { triggerFetch } = useFetch({
@@ -14,7 +15,7 @@ const Login = () => {
     successCb: data => {
       alert('Logged in successfully');
       updateAuthInfo(data);
-      navigate('/');
+      history.push('/');
     },
   });
 

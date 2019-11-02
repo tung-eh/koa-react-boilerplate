@@ -12,11 +12,12 @@ Boiler plate to create production-ready full-stack Node.js app with Koa backend 
 # Technologies
 
 - Backend: Koa + passport + MongoDB(mongoose)
-- Frontend: React + Reach router
+- Frontend: React + React router
 - Babel, Parcel
 
 # How to run
 
+- Require: Node, yarn, mongodb
 - `yarn install`
 - Copy `.env.example` to `.env` then update your environment variables
 - `yarn dev` (development) or `yarn start` (production)

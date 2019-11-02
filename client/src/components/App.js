@@ -1,4 +1,4 @@
-import { Router } from '@reach/router';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import About from './About';
@@ -11,13 +11,25 @@ import SignUp from './SignUp';
 
 const App = () => (
   <AuthProvider>
-    <Navigator />
     <Router>
-      <Home path="/" />
-      <About path="about" />
-      <Sample path="sample" />
-      <Login path="login" />
-      <SignUp path="signup" />
+      <Navigator />
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="/sample">
+          <Sample />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+      </Switch>
     </Router>
   </AuthProvider>
 );

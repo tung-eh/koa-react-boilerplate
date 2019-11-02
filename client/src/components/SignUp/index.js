@@ -1,9 +1,10 @@
-import { navigate } from '@reach/router';
+import { useHistory } from 'react-router';
 import React from 'react';
 
 import { useFetch, useFormInput } from '../../hooks';
 
 const SignUp = () => {
+  const history = useHistory();
   const [input, handleInputChange] = useFormInput({
     name: '',
     email: '',
@@ -17,7 +18,7 @@ const SignUp = () => {
       alert(
         "Signed up successfully. Let's login to the account you've just created"
       );
-      navigate('/login');
+      history.push('/login');
     },
   });
 
