@@ -8,10 +8,11 @@ node_modules
 # dotenv environment variables file
 .env
 
-# parcel-bundler cache
+# parcel cache
 .cache
+.parcel-cache
 
-# parcel-bundler build output
+# parcel build output
 dist
 
 # babel build output
