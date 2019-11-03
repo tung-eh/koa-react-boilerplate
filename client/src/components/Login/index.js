@@ -1,23 +1,26 @@
 import { useHistory } from 'react-router';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { AuthContext } from '../AuthProvider';
-import { useFormInput, useFetch } from '../../hooks';
+import { useFormInput } from '../../hooks';
+import usePost from '../../hooks/usePost';
 
 const Login = () => {
   const history = useHistory();
   const [input, handleInputChange] = useFormInput({ email: '', password: '' });
   const { updateAuthInfo } = useContext(AuthContext);
-  const { triggerFetch } = useFetch({
-    url: '/api/login',
-    method: 'POST',
-    dataObj: input,
-    successCb: data => {
-      alert('Logged in successfully');
-      updateAuthInfo(data);
-      history.push('/');
-    },
-  });
+  const [triggerFetch] = usePost(
+    '/api/login',
+    input,
+    useCallback(
+      data => {
+        alert('Logged in successfully');
+        updateAuthInfo(data);
+        history.push('/');
+      },
+      [history, updateAuthInfo]
+    )
+  );
 
   return (
     <div>

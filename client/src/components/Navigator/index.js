@@ -1,21 +1,24 @@
 import { Link, useHistory } from 'react-router-dom';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { AuthContext } from '../AuthProvider';
-import { useFetch } from '../../hooks';
+import { usePost } from '../../hooks/usePost';
 
 const AuthNav = () => {
   const history = useHistory();
   const { authInfo, updateAuthInfo } = useContext(AuthContext);
-  const { triggerFetch } = useFetch({
-    url: '/api/logout',
-    method: 'POST',
-    successCb: data => {
-      alert('Logged out successfully');
-      updateAuthInfo(null);
-      history.push('/login');
-    },
-  });
+  const [triggerFetch] = usePost(
+    '/api/logout',
+    {},
+    useCallback(
+      data => {
+        alert('Logged out successfully');
+        updateAuthInfo(null);
+        history.push('/login');
+      },
+      [history, updateAuthInfo]
+    )
+  );
 
   return authInfo ? (
     <a href="#" onClick={triggerFetch}>

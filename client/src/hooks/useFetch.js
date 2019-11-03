@@ -1,59 +1,72 @@
-import { useState } from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 
-const makeQuery = obj =>
-  Object.keys(obj)
-    .map(key => `${key}=${obj[key]}`)
-    .join('&');
+const initialState = {
+  loading: false,
+};
 
-const getUrl = (url, queryObj) =>
-  queryObj ? `${url}?${makeQuery(queryObj)}` : url;
+const FETCH_START = 'FETCH_START';
+const FETCH_SUCCESS = 'FETCH_SUCCESS';
+const FETCH_FAILED = 'FETCH_FAILED';
 
-const useFetch = ({
-  url = '',
-  method = 'GET',
-  dataObj,
-  queryObj,
-  successCb = () => {},
-  failCb = () => {},
-}) => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
-  const [error, setError] = useState();
+const reducer = (state, action) => {
+  switch (action.type) {
+    case FETCH_START:
+      return { loading: true };
+    case FETCH_SUCCESS:
+      return { loading: false, data: action.payload };
+    case FETCH_FAILED:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
-  const triggerFetch = () => {
-    setLoading(true);
-    fetch(getUrl(url, queryObj), {
-      method,
-      ...(dataObj
-        ? {
-            body: JSON.stringify(dataObj),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        : {}),
-    })
+export const useFetcher = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { loading, data, error } = state;
+
+  const triggerFetch = useCallback((url, opts) => {
+    dispatch({ type: FETCH_START });
+    fetch(url, opts)
       .then(response => {
         if (response.ok) {
           return response.json();
         } else {
-          throw new Error('Something went wrong ...');
+          throw new Error('API returns errors.');
         }
       })
       .then(data => {
-        setData(data);
-        successCb(data);
+        dispatch({ type: FETCH_SUCCESS, payload: data });
       })
-      .then(error => {
-        setError(error);
-        failCb(error);
-      })
-      .finally(() => setLoading(false));
-  };
+      .catch(error => {
+        dispatch({ type: FETCH_FAILED, payload: error });
+      });
+  }, []);
 
-  return { loading, data, error, triggerFetch };
+  return [triggerFetch, { loading, data, error }];
 };
 
-export { getUrl };
+export const useFetch = (url, opts) => {
+  const [fetcher, result] = useFetcher();
 
-export default useFetch;
+  const triggerFetch = useCallback(() => {
+    fetcher(url, opts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetcher, url, JSON.stringify(opts)]);
+
+  return [triggerFetch, result];
+};
+
+export const useFetchOnMount = (
+  url,
+  { triggerFetchCondition = true, ...opts } = {}
+) => {
+  const [triggerFetch, result] = useFetch(url, opts);
+
+  useEffect(() => {
+    if (triggerFetchCondition) triggerFetch();
+  }, [triggerFetch, url, triggerFetchCondition]);
+
+  return result;
+};

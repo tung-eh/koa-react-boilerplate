@@ -1,7 +1,8 @@
 import { useHistory } from 'react-router';
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import { useFetch, useFormInput } from '../../hooks';
+import { useFormInput } from '../../hooks';
+import { usePost } from '../../hooks/usePost';
 
 const SignUp = () => {
   const history = useHistory();
@@ -10,17 +11,19 @@ const SignUp = () => {
     email: '',
     password: '',
   });
-  const { triggerFetch } = useFetch({
-    url: '/api/signup',
-    method: 'POST',
-    dataObj: input,
-    successCb: data => {
-      alert(
-        "Signed up successfully. Let's login to the account you've just created"
-      );
-      history.push('/login');
-    },
-  });
+  const [triggerFetch] = usePost(
+    '/api/signup',
+    input,
+    useCallback(
+      data => {
+        alert(
+          "Signed up successfully. Let's login to the account you've just created"
+        );
+        history.push('/login');
+      },
+      [history]
+    )
+  );
 
   return (
     <div>
